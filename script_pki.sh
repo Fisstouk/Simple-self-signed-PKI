@@ -94,6 +94,22 @@ openssl ca -gencrl \
 	-config "${signing_ca_client_conf}" \
 	-out crl/signing-ca-client.crl
 
+echo "Create TLS client request"
+sleep 2
+SAN=DNS:www.esgi.local \
+	openssl req -new \
+	-config "${server_conf}" \
+	-out certs-client/esgi.local.csr \
+	-keyout certs-client/esgi.local.key
+
+echo "Create TLS client certificate"
+sleep 2
+openssl ca \
+	-config "${signing_ca_client_conf}" \
+	-in certs-client/esgi.local.csr \
+	-out certs-client/esgi.local.crt \
+	-extensions server_ext
+
 # Output
 
 echo "Create PKCS#12 bundle for Prof"
