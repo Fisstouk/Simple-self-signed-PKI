@@ -81,22 +81,6 @@ openssl ca \
 
 # Signing CA
 
-echo "Create TLS server request"
-sleep 2
-SAN=DNS:www.esgi.local \
-	openssl req -new \
-	-config "${server_conf}" \
-	-out ~/certs-client/esgi.local.csr \
-	-keyout ~/certs-client/esgi.local.key
-
-echo "Create TLS server certificate"
-sleep 2
-openssl ca \
-	-config "${signing_ca_client_conf}" \
-	-in ~/certs-client/esgi.local.csr \
-	-out ~/certs-client/esgi.local.crt \
-	-extensions server_ext
-
 # Revoke Certificate
 #
 #openssl ca \
@@ -112,13 +96,21 @@ openssl ca -gencrl \
 
 # Output
 
-echo "Create PKCS#12 bundle"
+echo "Create PKCS#12 bundle for Prof"
 sleep 2
 openssl pkcs12 -export \
 	-name "Esgi" \
 	-inkey ~/certs-client/esgi.local.key \
 	-in ~/certs-client/esgi.local.crt \
-	-out ~/certs-client/esgi.local.p12
+	-out ~/certs-client/prof.esgi.local.p12
+
+echo "Create PKCS#12 bundle for Eleve"
+sleep 2
+openssl pkcs12 -export \
+	-name "Esgi" \
+	-inkey ~/certs-client/esgi.local.key \
+	-in ~/certs-client/esgi.local.crt \
+	-out ~/certs-client/eleve.esgi.local.p12
 
 # Create Signing CA or Intermediate CA Server
 
@@ -182,13 +174,3 @@ sleep 2
 openssl ca -gencrl \
 	-config "${signing_ca_server_conf}" \
 	-out ~/crl/signing-ca-server.crl
-
-# Output
-
-echo "Create PKCS#12 bundle"
-sleep 2
-openssl pkcs12 -export \
-	-name "Esgi" \
-	-inkey ~/certs-server/esgi.local.key \
-	-in ~/certs-server/esgi.local.crt \
-	-out ~/certs-server/esgi.local.p12
