@@ -94,39 +94,57 @@ openssl ca -gencrl \
 	-config "${signing_ca_client_conf}" \
 	-out crl/signing-ca-client.crl
 
-echo "Create TLS client request"
+# Prof
+
+echo "Create TLS client request prof"
 sleep 2
 SAN=DNS:www.esgi.local \
 	openssl req -new \
 	-config "${server_conf}" \
-	-out certs-client/esgi.local.csr \
-	-keyout certs-client/esgi.local.key
+	-out certs-client/prof.esgi.local.csr \
+	-keyout certs-client/prof.esgi.local.key
 
-echo "Create TLS client certificate"
+echo "Create TLS client certificate prof"
 sleep 2
 openssl ca \
 	-config "${signing_ca_client_conf}" \
-	-in certs-client/esgi.local.csr \
-	-out certs-client/esgi.local.crt \
+	-in certs-client/prof.esgi.local.csr \
+	-out certs-client/prof.esgi.local.crt \
 	-extensions server_ext
 
-# Output
-
-echo "Create PKCS#12 bundle for Prof"
+echo "Create PKCS#12 bundle for prof"
 sleep 2
 openssl pkcs12 -export \
 	-name "Esgi" \
-	-inkey certs-client/esgi.local.key \
-	-in certs-client/esgi.local.crt \
+	-inkey certs-client/prof.esgi.local.key \
+	-in certs-client/prof.esgi.local.crt \
 	-out certs-client/prof.esgi.local.p12
 
-echo "Create PKCS#12 bundle for Eleve"
+# Eleve
+
+echo "Create TLS client request eleve"
+sleep 2
+SAN=DNS:www.esgi.local \
+	openssl req -new \
+	-config "${server_conf}" \
+	-out certs-client/eleve.esgi.local.csr \
+	-keyout certs-client/eleve.esgi.local.key
+
+echo "Create TLS client certificate eleve"
+sleep 2
+openssl ca \
+	-config "${signing_ca_client_conf}" \
+	-in certs-client/eleve.esgi.local.csr \
+	-out certs-client/eleve.esgi.local.crt \
+	-extensions server_ext
+
+echo "Create PKCS#12 bundle for eleve"
 sleep 2
 openssl pkcs12 -export \
 	-name "Esgi" \
-	-inkey certs-client/esgi.local.key \
 	-in certs-client/esgi.local.crt \
-	-out certs-client/eleve.esgi.local.pkcs12
+	-inkey certs-client/eleve.esgi.local.key \
+	-out certs-client/eleve.esgi.local.p12
 
 # Create Signing CA or Intermediate CA Server
 
