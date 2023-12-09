@@ -142,7 +142,7 @@ echo "Create PKCS#12 bundle for eleve"
 sleep 2
 openssl pkcs12 -export \
 	-name "Esgi" \
-	-in certs-client/esgi.local.crt \
+	-in certs-client/eleve.esgi.local.crt \
 	-inkey certs-client/eleve.esgi.local.key \
 	-out certs-client/eleve.esgi.local.p12
 
