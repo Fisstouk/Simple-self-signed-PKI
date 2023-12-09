@@ -120,6 +120,10 @@ openssl pkcs12 -export \
 	-in certs-client/prof.esgi.local.crt \
 	-out certs-client/prof.esgi.local.p12
 
+echo "Create pem file for prof"
+sleep 2
+cat certs-client/prof.esgi.local.key certs-client/prof.esgi.local.crt >certs-client/prof.esgi.local.pem
+
 # Eleve
 
 echo "Create TLS client request eleve"
@@ -145,6 +149,10 @@ openssl pkcs12 -export \
 	-in certs-client/eleve.esgi.local.crt \
 	-inkey certs-client/eleve.esgi.local.key \
 	-out certs-client/eleve.esgi.local.p12
+
+echo "Create pem file for eleve"
+sleep 2
+cat certs-client/eleve.esgi.local.key certs-client/eleve.esgi.local.crt >certs-client/eleve.esgi.local.pem
 
 # Create Signing CA or Intermediate CA Server
 
