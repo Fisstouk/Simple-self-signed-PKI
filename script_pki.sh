@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-set -e
-set -x
+#set -e
+#set -x
 #
 signing_ca_client_conf="pki_conf_files/signing-ca-client.conf"
 signing_ca_server_conf="pki_conf_files/signing-ca-server.conf"
@@ -153,6 +153,9 @@ openssl pkcs12 -export \
 echo "Create pem file for eleve"
 sleep 2
 cat certs-client/eleve.esgi.local.key certs-client/eleve.esgi.local.crt >certs-client/eleve.esgi.local.pem
+
+echo "Create pem chain file"
+cat ca/signing-ca-client.crt ca/root-ca.crt >ca/signing-ca-client-chain.pem
 
 # Create Signing CA or Intermediate CA Server
 
