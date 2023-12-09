@@ -2,3 +2,8 @@ ca/*
 certs-client/*
 certs-server/*
 crl/*
+*.crt
+*.csr
+*.p12
+*.pem
+
