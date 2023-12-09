@@ -2,8 +2,12 @@ ca/*
 certs-client/*
 certs-server/*
 crl/*
+*.crl
 *.crt
+*.cert
 *.csr
-*.p12
+*.der
 *.pem
+*.p12
+*.p7c
 
